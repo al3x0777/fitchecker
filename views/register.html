@@ -4,19 +4,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrati - FitChecker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div class="card">
-        <h1>📝 Registrati</h1>
-        <form action="/register" method="POST">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Registrati</button>
-        </form>
-        <p>Hai già un account? <a href="/login">Accedi</a></p>
-        <p><a href="/">← Torna alla home</a></p>
-    </div>
+    <nav class="navbar">
+        <a href="/" class="logo"><span>🏃</span> FitChecker</a>
+        <div class="hamburger"><span></span><span></span><span></span></div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/login">Accedi</a></li>
+            <li><a href="/register">Registrati</a></li>
+        </ul>
+    </nav>
+
+    <main class="auth-container">
+        <div class="auth-card">
+            <h1>Inizia il tuo viaggio! 🚀</h1>
+            <p>Registrati per scoprire FitChecker</p>
+            
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="username">Username *</label>
+                    <input type="text" id="username" name="username" required placeholder="Scegli un username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="tua@email.it">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input type="password" id="password" name="password" required placeholder="Minimo 6 caratteri">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age">Età</label>
+                        <input type="number" id="age" name="age" placeholder="14-100" value="16">
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Peso (kg)</label>
+                        <input type="number" id="weight" name="weight" step="0.1" placeholder="kg" value="65">
+                    </div>
+                    <div class="form-group">
+                        <label for="height">Altezza (cm)</label>
+                        <input type="number" id="height" name="height" placeholder="cm" value="170">
+                    </div>
+                </div>
+                
+                <div id="errorMessage" class="error-message" style="display: none;"></div>
+                
+                <button type="submit" class="btn btn-primary btn-full">Registrati</button>
+            </form>
+            
+            <p class="auth-link">Hai già un account? <a href="/login">Accedi qui</a></p>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+                email: document.getElementById('email').value,
+                age: document.getElementById('age').value,
+                weight: document.getElementById('weight').value,
+                height: document.getElementById('height').value
+            };
+            
+            const errorDiv = document.getElementById('errorMessage');
+            
+            if (formData.password.length < 6) {
+                errorDiv.textContent = 'La password deve essere di almeno 6 caratteri';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    window.location.href = data.redirect;
+                } else {
+                    errorDiv.textContent = data.error || 'Errore nella registrazione';
+                    errorDiv.style.display = 'block';
+                }
+            } catch (error) {
+                errorDiv.textContent = 'Errore di connessione. Riprova.';
+                errorDiv.style.display = 'block';
+            }
+        });
+        
+        document.querySelector('.hamburger')?.addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
 </body>
 </html>

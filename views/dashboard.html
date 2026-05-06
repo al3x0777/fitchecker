@@ -4,14 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - FitChecker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
-    <div class="card">
-        <h1>📊 Dashboard</h1>
-        <p>Benvenuto nella tua area personale!</p>
-        <p>La dashboard completa arriverà presto... 🚧</p>
-        <a href="/logout">🚪 Logout</a>
-    </div>
+    <nav class="navbar">
+        <a href="/dashboard" class="logo"><span>🏃</span> FitChecker</a>
+        <div class="hamburger"><span></span><span></span><span></span></div>
+        <ul class="nav-links">
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/calculator">Calcolatore</a></li>
+            <li><a href="/exercises">Esercizi</a></li>
+            <li><a href="/diary">Diario</a></li>
+            <li><a href="/progress">Progressi</a></li>
+            <li><a href="/fake-news-quiz">Quiz</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <div class="dashboard-header">
+            <h1>Ciao, <span id="username">...</span>! 👋</h1>
+            <p id="motivationalQuote" class="quote">Caricando la frase motivazionale...</p>
+        </div>
+
+        <div class="grid-3">
+            <div class="card">
+                <h3>📊 Il tuo BMI</h3>
+                <div id="bmiDisplay" class="bmi-large">--</div>
+                <div id="bmiCategory" class="bmi-category"></div>
+                <div class="bmi-bar">
+                    <div id="bmiIndicator" class="bmi-indicator" style="left: 0%;"></div>
+                </div>
+                <div class="bmi-labels">
+                    <span>Sottopeso</span><span>Normale</span><span>Sovrappeso</span><span>Obesità</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>💧 Fabbisogno idrico</h3>
+                <div id="waterIntake" class="value-large">-- ml</div>
+                <p>Bevi regolarmente durante la giornata</p>
+                <progress id="waterProgress" value="0" max="100" class="progress-bar"></progress>
+            </div>
+
+            <div class="card">
+                <h3>🏆 Esercizio consigliato</h3>
+                <div id="suggestedExercise">
+                    <div class="suggestion-loading">Caricamento...</div>
+                </div>
+                <button id="refreshSuggestion" class="btn btn-small">⟳ Suggerisci altro</button>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <h3>📅 Attività di oggi</h3>
+                <div id="todayStats">
+                    <p>Esercizi completati: <strong id="todayCount">0</strong></p>
+                    <p>Calorie bruciate: <strong id="todayCalories">0</strong></p>
+                </div>
+                <div class="solidarity-counter">
+                    <p>🤝 Energia virtuale donata: <strong id="solidarityCount">0</strong></p>
+                    <div class="solidarity-bar">
+                        <div id="solidarityBar" class="solidarity-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>⚡ Pausa attiva</h3>
+                <p>Stai seduto da <span id="inactiveTime">0</span> minuti</p>
+                <div class="fatigue-control">
+                    <label>Livello fatica (1-10):</label>
+                    <input type="range" id="fatigueSlider" min="1" max="10" value="5">
+                    <span id="fatigueValue">5</span>
+                </div>
+                <div id="fatigueAdvice" class="fatigue-advice"></div>
+                <button id="activeBreakBtn" class="btn btn-primary">🧘 Fai una pausa attiva</button>
+            </div>
+        </div>
+
+        <div class="quick-links">
+            <a href="/calculator" class="quick-link">📏 Calcola BMI</a>
+            <a href="/exercises" class="quick-link">💪 Esercizi</a>
+            <a href="/diary" class="quick-link">📓 Diario</a>
+            <a href="/fake-news-quiz" class="quick-link">🎓 Quiz fake news</a>
+        </div>
+    </main>
+
+    <script src="/js/utils.js"></script>
+    <script src="/js/dashboard.js"></script>
 </body>
 </html>

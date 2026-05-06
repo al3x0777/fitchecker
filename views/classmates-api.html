@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrazione Compagni - FitChecker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/dashboard" class="logo"><span>🏃</span> FitChecker</a>
+        <div class="hamburger"><span></span><span></span><span></span></div>
+        <ul class="nav-links">
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/calculator">Calcolatore</a></li>
+            <li><a href="/exercises">Esercizi</a></li>
+            <li><a href="/diary">Diario</a></li>
+            <li><a href="/progress">Progressi</a></li>
+            <li><a href="/fake-news-quiz">Quiz</a></li>
+            <li><a href="/verify-source">Verifica fonte</a></li>
+            <li><a href="/classmates-api">API Compagni</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <h1>🔌 Integrazione con i progetti dei compagni</h1>
+        <p class="subtitle">Collaborazione tra progetti di Educazione Civica</p>
+
+        <!-- Cosa offriamo -->
+        <div class="card offer-card">
+            <h2>📤 Cosa offriamo ai compagni</h2>
+            <p>Il nostro web service è disponibile per tutti i progetti della classe:</p>
+            <div class="api-endpoints">
+                <div class="endpoint">
+                    <code>GET /api/exercise-suggestion?age=16&level=beginner&goal=cardio</code>
+                    <p>Suggerisce un esercizio personalizzato in base a età, livello e obiettivo</p>
+                </div>
+                <div class="endpoint">
+                    <code>GET /api/calorie-burn?activity=running&minutes=30&weight=65</code>
+                    <p>Calcola le calorie bruciate per un'attività</p>
+                </div>
+                <div class="endpoint">
+                    <code>GET /api/class-stats</code>
+                    <p>Statistiche anonime della classe (esercizi totali, esercizio più popolare)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cosa chiamiamo dai compagni -->
+        <div class="card call-card">
+            <h2>📥 Cosa chiamiamo dai compagni</h2>
+            <p>Integriamo i servizi dei compagni per offrirti consigli completi</p>
+            
+            <div class="integration-section">
+                <h3>🍎 Consiglio alimentare</h3>
+                <div class="integration-control">
+                    <label for="companionNutritionUrl">URL API compagno (alimentazione):</label>
+                    <input type="text" id="companionNutritionUrl" placeholder="http://ip-compagno:porta/api/food-advice" class="integration-input">
+                    <button id="fetchNutrition" class="btn btn-small">Chiama API</button>
+                </div>
+                <div id="nutritionResult" class="integration-result"></div>
+            </div>
+
+            <div class="integration-section">
+                <h3>🌍 Qualità dell'aria</h3>
+                <div class="integration-control">
+                    <label for="companionAirUrl">URL API compagno (qualità aria):</label>
+                    <input type="text" id="companionAirUrl" placeholder="http://ip-compagno:porta/api/air-quality" class="integration-input">
+                    <button id="fetchAirQuality" class="btn btn-small">Chiama API</button>
+                </div>
+                <div id="airQualityResult" class="integration-result"></div>
+            </div>
+
+            <div class="integration-section">
+                <h3>😴 Consiglio sonno</h3>
+                <div class="integration-control">
+                    <label for="companionSleepUrl">URL API compagno (sonno):</label>
+                    <input type="text" id="companionSleepUrl" placeholder="http://ip-compagno:porta/api/sleep-advice" class="integration-input">
+                    <button id="fetchSleep" class="btn btn-small">Chiama API</button>
+                </div>
+                <div id="sleepResult" class="integration-result"></div>
+            </div>
+        </div>
+
+        <!-- Esempio di integrazione -->
+        <div class="card code-card">
+            <h2>💻 Esempio di integrazione per i compagni</h2>
+            <p>I compagni possono integrare il nostro servizio con questo semplice codice:</p>
+            <pre><code>
+// JavaScript per chiamare il nostro API
+async function getExerciseSuggestion() {
+    const response = await fetch('http://[NOSTRO-IP]:3000/api/exercise-suggestion?age=16&level=beginner');
+    const data = await response.json();
+    console.log(data.data.exercise); // "Squat"
+    console.log(data.data.repetitions); // "3x12"
+    return data;
+}
+            </code></pre>
+            
+            <h3>Test del nostro web service</h3>
+            <div class="test-section">
+                <div class="test-controls">
+                    <label>Età: <input type="number" id="testAge" value="16"></label>
+                    <label>Livello: 
+                        <select id="testLevel">
+                            <option value="beginner">Principiante</option>
+                            <option value="intermediate">Intermedio</option>
+                            <option value="advanced">Avanzato</option>
+                        </select>
+                    </label>
+                    <label>Obiettivo:
+                        <select id="testGoal">
+                            <option value="weight_loss">Perdita peso</option>
+                            <option value="toning">Tonificazione</option>
+                            <option value="strength">Forza</option>
+                            <option value="cardio">Cardio</option>
+                        </select>
+                    </label>
+                    <button id="testServiceBtn" class="btn btn-primary">Testa servizio</button>
+                </div>
+                <div id="testResult" class="test-result"></div>
+            </div>
+        </div>
+
+        <!-- Documentazione per compagni -->
+        <div class="card doc-card">
+            <h2>📚 Documentazione per integrazione</h2>
+            <div class="doc-content">
+                <h3>Endpoint disponibili</h3>
+                <table class="api-table">
+                    <thead>
+                        <tr><th>Endpoint</th><th>Metodo</th><th>Parametri</th><th>Descrizione</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>/api/exercise-suggestion</td><td>GET</td><td>age, level, goal</td><td>Suggerimento esercizio</td></tr>
+                        <tr><td>/api/calorie-burn</td><td>GET</td><td>activity, minutes, weight</td><td>Calcolo calorie</td></tr>
+                        <tr><td>/api/class-stats</td><td>GET</td><td>-</td><td>Statistiche classe</td></tr>
+                    </tbody>
+                </table>
+                
+                <h3>Esempio risposta</h3>
+                <pre><code>{
+  "success": true,
+  "data": {
+    "exercise": "Squat",
+    "repetitions": "3x12",
+    "calories_estimate": 85
+  }
+}</code></pre>
+                
+                <p class="note">🔑 Nessuna autenticazione richiesta per uso accademico. Rate limit: 100 chiamate/ora.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Progetto Educazione Civica - Collaborazione e integrazione tra progetti</p>
+        <p>I nostri servizi sono disponibili per tutti i compagni della classe</p>
+    </footer>
+
+    <script src="/js/utils.js"></script>
+    <script src="/js/classmates-api.js"></script>
+</body>
+</html>

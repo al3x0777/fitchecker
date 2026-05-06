@@ -1,0 +1,12 @@
+# dipendenze
+nodemodules/
+
+# .env
+.env
+
+#dati
+data/
+
+#configurazioni vsCode e MacOS
+.vscode/
+_MASCOSX/

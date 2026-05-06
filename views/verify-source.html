@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifica Fonte - FitChecker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/dashboard" class="logo"><span>🏃</span> FitChecker</a>
+        <div class="hamburger"><span></span><span></span><span></span></div>
+        <ul class="nav-links">
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/calculator">Calcolatore</a></li>
+            <li><a href="/exercises">Esercizi</a></li>
+            <li><a href="/diary">Diario</a></li>
+            <li><a href="/progress">Progressi</a></li>
+            <li><a href="/fake-news-quiz">Quiz</a></li>
+            <li><a href="/verify-source">Verifica fonte</a></li>
+            <li><a href="/classmates-api">API Compagni</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <h1>🔍 Verifica l'attendibilità delle fonti</h1>
+        <p class="subtitle">Inserisci un URL di un articolo sul fitness e scopri se è affidabile</p>
+
+        <div class="verify-section">
+            <div class="card verify-card">
+                <h2>📎 Inserisci URL da verificare</h2>
+                <div class="verify-input-group">
+                    <input type="url" id="sourceUrl" placeholder="https://esempio.it/articolo-fitness" class="verify-input">
+                    <button id="verifyBtn" class="btn btn-primary">Verifica attendibilità →</button>
+                </div>
+            </div>
+
+            <div id="verificationResult" class="verification-result" style="display: none;">
+                <div class="result-header">
+                    <h3>Risultato verifica</h3>
+                    <div id="trustScore" class="trust-score"></div>
+                </div>
+                <div id="trustDetails" class="trust-details"></div>
+                <div id="trustRecommendation" class="trust-recommendation"></div>
+            </div>
+        </div>
+
+        <!-- Guida alla verifica delle fonti -->
+        <div class="guide-section">
+            <h2>📖 Guida alla verifica delle fonti digitali</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>1️⃣ Controlla l'autore</h3>
+                    <p>Chi ha scritto l'articolo? Ha competenze nel settore? Le credenziali sono indicate?</p>
+                    <div class="tip">✅ Cerca: medico, nutrizionista, ricercatore</div>
+                    <div class="tip wrong">❌ Attenzione a: "guru", "influencer", anonimi</div>
+                </div>
+                <div class="card">
+                    <h3>2️⃣ Verifica le fonti citate</h3>
+                    <p>L'articolo cita studi scientifici? Linka a fonti ufficiali?</p>
+                    <div class="tip">✅ Cerca: OMS, ISS, PubMed, Lancet, studio pubblicato</div>
+                    <div class="tip wrong">❌ Attenzione a: "uno studio dice", "secondo alcuni esperti"</div>
+                </div>
+                <div class="card">
+                    <h3>3️⃣ Guarda la data</h3>
+                    <p>L'articolo è aggiornato? La scienza evolve rapidamente.</p>
+                    <div class="tip">✅ Preferisci articoli degli ultimi 5 anni</div>
+                    <div class="tip wrong">❌ Attenzione a informazioni obsolete</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Domande da porsi -->
+        <div class="card questions-card">
+            <h3>🤔 Domande da porsi prima di fidarsi</h3>
+            <ul class="questions-list">
+                <li>❓ Il sito ha uno scopo commerciale o informativo?</li>
+                <li>❓ L'articolo promette risultati miracolosi?</li>
+                <li>❓ Ci sono conflitti di interesse dichiarati?</li>
+                <li>❓ Il linguaggio è sensazionalistico ("scoppierà il web", "segreti della salute")?</li>
+                <li>❓ Altri siti affidabili riportano la stessa informazione?</li>
+            </ul>
+        </div>
+
+        <!-- Esempi di fake news -->
+        <div class="card examples-card">
+            <h3>🚫 Fake news comuni sull'esercizio fisico</h3>
+            <div class="examples-grid">
+                <div class="example">
+                    <span class="fake">FALSO</span>
+                    <p>"Sudare molto significa che stai dimagrendo"</p>
+                </div>
+                <div class="example">
+                    <span class="fake">FALSO</span>
+                    <p>"Fare addominali toglie il grasso dalla pancia"</p>
+                </div>
+                <div class="example">
+                    <span class="fake">FALSO</span>
+                    <p>"Allenarsi a digiuno brucia più grassi"</p>
+                </div>
+                <div class="example">
+                    <span class="real">REALE</span>
+                    <p>"Bere acqua durante l'esercizio è importante"</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Progetto Educazione Civica - Educazione ai media e informazione corretta</p>
+        <p>Verifica sempre le fonti prima di condividere informazioni sanitarie</p>
+    </footer>
+
+    <script src="/js/utils.js"></script>
+    <script src="/js/verify-source.js"></script>
+</body>
+</html>

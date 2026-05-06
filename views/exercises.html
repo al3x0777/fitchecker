@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizi - FitChecker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/dashboard" class="logo"><span>🏃</span> FitChecker</a>
+        <div class="hamburger"><span></span><span></span><span></span></div>
+        <ul class="nav-links">
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/calculator">Calcolatore</a></li>
+            <li><a href="/exercises">Esercizi</a></li>
+            <li><a href="/diary">Diario</a></li>
+            <li><a href="/progress">Progressi</a></li>
+            <li><a href="/fake-news-quiz">Quiz</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <h1>💪 Biblioteca esercizi</h1>
+        <p class="subtitle">Scopri esercizi consigliati e traccia i tuoi progressi</p>
+
+        <!-- Filtri -->
+        <div class="filters-bar">
+            <div class="filter-group">
+                <label for="muscleFilter">Muscolo target:</label>
+                <select id="muscleFilter">
+                    <option value="all">Tutti</option>
+                    <option value="abdominals">Addominali</option>
+                    <option value="quadriceps">Quadricipiti</option>
+                    <option value="chest">Pettorali</option>
+                    <option value="back">Schiena</option>
+                    <option value="cardio">Cardio</option>
+                    <option value="glutes">Glutei</option>
+                    <option value="biceps">Bicipiti</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="difficultyFilter">Difficoltà:</label>
+                <select id="difficultyFilter">
+                    <option value="all">Tutte</option>
+                    <option value="beginner">Principiante</option>
+                    <option value="intermediate">Intermedio</option>
+                    <option value="advanced">Avanzato</option>
+                </select>
+            </div>
+            <button id="applyFilters" class="btn btn-primary">Applica filtri</button>
+        </div>
+
+        <!-- Esercizi -->
+        <div id="exercisesGrid" class="exercises-grid">
+            <div class="loading-spinner">Caricamento esercizi...</div>
+        </div>
+
+        <!-- Inclusività -->
+        <div class="card inclusivity-card">
+            <h3>🌟 Esercizi per tutti</h3>
+            <div class="inclusivity-options">
+                <button class="inclusivity-btn" data-variant="seated">🪑 Versione da seduti</button>
+                <button class="inclusivity-btn" data-variant="standing">🧍 Versione in piedi</button>
+                <button class="inclusivity-btn" data-variant="beginner">🌱 Principianti assoluti</button>
+                <button class="inclusivity-btn" data-variant="chair">🪑 Con sedia</button>
+            </div>
+            <div id="inclusiveAdvice" class="inclusive-advice"></div>
+        </div>
+
+        <!-- Frase motivazionale -->
+        <div class="quote-card">
+            <div id="dailyQuote" class="daily-quote">💪</div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Progetto Educazione Civica - Obiettivo 3 Agenda 2030: Salute e benessere</p>
+        <p>Esercizi forniti da API-Ninjas e database locale</p>
+    </footer>
+
+    <script src="/js/utils.js"></script>
+    <script src="/js/exercises.js"></script>
+</body>
+</html>

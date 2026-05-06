@@ -3,16 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitChecker - Benvenuto</title>
+    <title>FitChecker - Benessere e Esercizio Fisico</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>🏃‍♂️ FitChecker</h1>
-        <p>La tua app per il benessere e l'esercizio fisico</p>
-        <p>✅ Server funzionante!</p>
-        <a href="/login" class="btn">🔐 Accedi</a>
-        <a href="/register" class="btn">📝 Registrati</a>
-    </div>
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <span>🏃</span> FitChecker
+        </a>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/login">Accedi</a></li>
+            <li><a href="/register">Registrati</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Prenditi cura della tua <span class="highlight">salute</span></h1>
+                <p>FitChecker ti aiuta a monitorare il tuo benessere, scoprire esercizi personalizzati e raggiungere i tuoi obiettivi.</p>
+                <div class="hero-buttons">
+                    <a href="/register" class="btn btn-primary">Inizia ora →</a>
+                    <a href="/login" class="btn btn-outline">Hai già un account?</a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-number">60'</div>
+                    <div class="stat-label">di attività al giorno<br>raccomandati dall'OMS</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">80%</div>
+                    <div class="stat-label">degli adolescenti<br>è insufficientemente attivo</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <h2>Perché scegliere FitChecker?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Monitora i progressi</h3>
+                    <p>Traccia BMI, esercizi completati e calorie bruciate nel tempo.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💪</div>
+                    <h3>Esercizi personalizzati</h3>
+                    <p>Suggerimenti basati su età, livello e obiettivi personali.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3>Educazione civica</h3>
+                    <p>Impara a riconoscere le fake news sull'attività fisica.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Sfida gli amici</h3>
+                    <p>Confronati con i compagni e condividi i tuoi successi.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="values">
+            <h2>I valori che promuoviamo</h2>
+            <div class="values-grid">
+                <div class="value-item">
+                    <span class="value-emoji">✨</span>
+                    <span>Responsabilità</span>
+                </div>
+                <div class="value-item">
+                    <span class="value-emoji">⚖️</span>
+                    <span>Legalità</span>
+                </div>
+                <div class="value-item">
+                    <span class="value-emoji">🤝</span>
+                    <span>Partecipazione</span>
+                </div>
+                <div class="value-item">
+                    <span class="value-emoji">❤️</span>
+                    <span>Solidarietà</span>
+                </div>
+                <div class="value-item">
+                    <span class="value-emoji">🕊️</span>
+                    <span>Inclusività</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Progetto Educazione Civica - Obiettivo 3 Agenda 2030: Salute e benessere</p>
+        <p>Fonti: OMS, ISS, British Journal of Sports Medicine</p>
+    </footer>
+
+    <script src="/js/utils.js"></script>
+    <script>
+        // Hamburger menu
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+    </script>
 </body>
 </html>

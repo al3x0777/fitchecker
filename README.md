@@ -2,11 +2,11 @@
 
 ## Esercizio fisico e benessere
 
-**Studenti:** [Cognome Nome] e [Cognome Nome]  
-**Classe:** [es. 5^ A Informatica]  
+**Studenti:** [Alexandru Straistaru] e [Mannarino Matteo]  
+**Classe:** [5^ C Informatica]  
 **Anno scolastico:** 2025/2026  
-**Materie:** TDP (Tecnologie e Progettazione) + Educazione Civica  
-**Data consegna:** [gg/mm/aaaa]
+**Materia:** TDP (Tecnologie e Progettazione) + Educazione Civica  
+**Data consegna:** [06/06/2026]
 
 ---
 
