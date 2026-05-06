@@ -1,12 +1,42 @@
-# dipendenze
-nodemodules/
+# Dipendenze
+node_modules/
 
-# .env
+# File di ambiente
 .env
+.env.local
+.env.development
+.env.production
 
-#dati
+# Dati locali
 data/
 
-#configurazioni vsCode e MacOS
+# Configurazioni editor e IDE
 .vscode/
+.idea/
+
+# File di sistema OS
+.DS_Store
+Thumbs.db
 _MASCOSX/
+
+# Log e debug
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cartelle di build/output
+dist/
+build/
+
+# Coverage dei test
+coverage/
+.nyc_output/
+
+# Cache e temporanei
+.cache/
+.tmp/
+tmp/
+
+# Dati pesanti
+docs/*.pptx
