@@ -1,0 +1,31 @@
+{
+  "name": "fitchecker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/al3x0777/fitchecker.git"
+  },
+  "keywords": [],
+  "author": "Alexandru Straistaru & Matteo Mannarino",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/al3x0777/fitchecker/issues"
+  },
+  "homepage": "https://github.com/al3x0777/fitchecker#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

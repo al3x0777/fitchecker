@@ -1,0 +1,145 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+h1 {
+    color: #2E7D32;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #666;
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+button, .btn {
+    width: 100%;
+    background: #2E7D32;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+button:hover, .btn:hover {
+    background: #1B5E20;
+    transform: scale(1.02);
+}
+
+.btn-logout {
+    background: #dc3545;
+    margin-top: 20px;
+    display: inline-block;
+    width: auto;
+    padding: 8px 20px;
+    font-size: 14px;
+}
+
+.btn-logout:hover {
+    background: #c82333;
+}
+
+.error {
+    color: #dc3545;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.success {
+    color: #2E7D32;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.streak-card {
+    background: linear-gradient(135deg, #ff9800, #ff5722);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+    color: white;
+    text-align: center;
+}
+
+.streak-number {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.streak-label {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.streak-fire {
+    font-size: 30px;
+    margin-top: 10px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.menu .btn {
+    background: #00BCD4;
+}
+
+.menu .btn:hover {
+    background: #0097A7;
+}
+
+a {
+    color: #2E7D32;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+p {
+    margin-top: 20px;
+}
