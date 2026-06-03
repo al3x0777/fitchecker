@@ -92,9 +92,11 @@ const UserModel = {
     favExs.forEach(e => { groupCount[e.muscleGroup] = (groupCount[e.muscleGroup] || 0) + 1; });
     return {
       totalFavorites: u.favorites.length,
-      totalComments:  Object.keys(u.comments || {}).length,
+      totalComments:  Object.keys(u.comments || {}).length, //trasforma l'oggetto dei commenti in un array di chiavi e ne conta la lunghezza
       muscleGroups: groupCount,
-      topGroup: Object.entries(groupCount).sort((a,b) => b[1]-a[1])[0]?.[0] || '—'
+      topGroup: Object.entries(groupCount).sort((a,b) => b[1]-a[1])[0]?.[0] || '—' 
+      //Object.entries(groupCount) trasforma l'oggetto in un array di coppie [chiave, valore], poi prende la prima chiave (il gruppo muscolare più frequente), 
+      // o '—' se non ce ne sono.
     };
   }
 };
