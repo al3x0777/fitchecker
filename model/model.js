@@ -1,14 +1,14 @@
 // MODEL — gestisce i dati (lettura/scrittura JSON)
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
+const crypto = require('crypto'); //per fare l'hash delle password
 
 const EXERCISES_PATH = path.join(__dirname, '../data/exercises.json');
 const USERS_PATH     = path.join(__dirname, '../data/users.json');
 
-function readJSON(p)      { return JSON.parse(fs.readFileSync(p, 'utf8')); }
-function writeJSON(p, d)  { fs.writeFileSync(p, JSON.stringify(d, null, 2), 'utf8'); }
-function hashPwd(pw)      { return crypto.createHash('sha256').update(pw).digest('hex'); }
+function readJSON(p)      { return JSON.parse(fs.readFileSync(p, 'utf8')); } //legge json e lo trasforma in oggetto JS
+function writeJSON(p, d)  { fs.writeFileSync(p, JSON.stringify(d, null, 2), 'utf8'); } //salva l'oggetto JS come json, con indentazione di 2 spazi nel file specificato
+function hashPwd(pw)      { return crypto.createHash('sha256').update(pw).digest('hex'); } //trasforma password in hash
 
 /* ——— ESERCIZI ——— */
 const ExerciseModel = {
@@ -55,12 +55,14 @@ const UserModel = {
     const u = users.find(u => u.id === parseInt(userId));
     if (!u) return null;
     const idx = u.favorites.indexOf(parseInt(exerciseId));
+    // Se l'esercizio non è nei preferiti, lo aggiungo; altrimenti lo rimuovo
     idx === -1 ? u.favorites.push(parseInt(exerciseId)) : u.favorites.splice(idx, 1);
     writeJSON(USERS_PATH, users);
     return u.favorites;
   },
 
   getFavorites(userId) {
+    // Legge l'utente e restituisce gli esercizi che ha nei preferiti
     const u = readJSON(USERS_PATH).find(u => u.id === parseInt(userId));
     if (!u) return [];
     return readJSON(EXERCISES_PATH).filter(e => u.favorites.includes(e.id));
@@ -71,6 +73,7 @@ const UserModel = {
     const u = users.find(u => u.id === parseInt(userId));
     if (!u) return null;
     if (!u.comments) u.comments = {};
+    // Se il testo è vuoto, rimuovo il commento; altrimenti lo aggiorno o creo
     if (text.trim() === '') {
       delete u.comments[exerciseId];
     } else {
@@ -96,4 +99,6 @@ const UserModel = {
   }
 };
 
+//pubblica i due oggetti così che controller.js possa importarli 
+// con require('../model/model'). Il ciclo si chiude.
 module.exports = { ExerciseModel, UserModel };

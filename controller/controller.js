@@ -1,13 +1,15 @@
 // CONTROLLER — gestisce le richieste e coordina Model ↔ View
-const { ExerciseModel, UserModel } = require('../model/model');
+const { ExerciseModel, UserModel } = require('../model/model'); //importo i model
 
+//Funzione che invia il file index.html quando viene richiesta la home page
 const ViewController = {
   home(req, res) { res.sendFile('index.html', { root: './views' }); }
 };
 
+//Controller per gestire le richieste relative agli esercizi
 const ExerciseController = {
   getAll(req, res) {
-    const { muscleGroup, search } = req.query;
+    const { muscleGroup, search } = req.query; //req.query contiene parametri nell'url dopo ?
     let data;
     if (search)      data = ExerciseModel.search(search);
     else if (muscleGroup) data = ExerciseModel.getByMuscleGroup(muscleGroup);
@@ -24,6 +26,7 @@ const ExerciseController = {
   }
 };
 
+//Controller per gestire le richieste relative all'autenticazione e alla gestione degli utenti
 const AuthController = {
   login(req, res) {
     const { username, password } = req.body;
@@ -49,6 +52,7 @@ const AuthController = {
   }
 };
 
+//Controller per gestire le richieste relative ai preferiti degli utenti
 const FavoriteController = {
   toggle(req, res) {
     if (!req.session.user) return res.status(401).json({ success: false, error: 'Devi essere loggato' });
@@ -62,6 +66,7 @@ const FavoriteController = {
   }
 };
 
+//Controller per gestire le richieste relative ai commenti degli utenti sugli esercizi
 const CommentController = {
   set(req, res) {
     if (!req.session.user) return res.status(401).json({ success: false, error: 'Devi essere loggato' });
@@ -78,6 +83,7 @@ const CommentController = {
   }
 };
 
+//Controller per gestire le richieste relative alle statistiche degli utenti
 const StatsController = {
   get(req, res) {
     if (!req.session.user) return res.status(401).json({ success: false, error: 'Devi essere loggato' });
@@ -86,6 +92,7 @@ const StatsController = {
   }
 };
 
+//Controller per gestire le richieste relative al web service pubblico
 const WebServiceController = {
   publicExercises(req, res) {
     res.json({ service: 'FitChecker WebService', version: '1.0', data: ExerciseModel.getAll() });
@@ -96,6 +103,8 @@ const WebServiceController = {
   }
 };
 
+//Middleware per verificare se l'utente è autenticato prima di accedere a certe rotte
+//next --> se l'utente è autenticato, passo al controller successivo, altrimenti rispondo con un errore 401
 function requireAuth(req, res, next) {
   if (!req.session.user) return res.status(401).json({ success: false, error: 'Autenticazione richiesta' });
   next();

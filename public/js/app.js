@@ -11,6 +11,8 @@ let workoutSetsDone  = {}; // { idx: count }
 /* ============================
    INIT
 ============================ */
+//Quando il DOM è pronto, esegue le funzioni per verificare l'autenticazione, caricare i gruppi muscolari, caricare gli esercizi e generare l'allenamento del giorno. 
+// Queste funzioni sono asincrone perché fanno richieste al server.
 document.addEventListener('DOMContentLoaded', async () => {
   await checkAuth();
   await loadMuscleGroupPills();
@@ -21,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 /* ============================
    MAIN TAB SWITCHING
 ============================ */
+//Gestisce il cambio di tab principale (home, workout, stats) mostrando o nascondendo le sezioni corrispondenti e caricando le statistiche se si va su stats.
 function switchMainTab(tab) {
   document.querySelectorAll('.tab-section').forEach(s => s.classList.add('hidden'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -32,6 +35,7 @@ function switchMainTab(tab) {
 /* ============================
    AUTH
 ============================ */
+
 async function checkAuth() {
   try {
     const res  = await fetch('/api/auth/me');
@@ -106,10 +110,12 @@ async function loadExercises(params = '') {
     const res  = await fetch('/api/exercises' + params);
     const data = await res.json();
     allExercises = data.data;
-    renderGrid(allExercises);
+    renderGrid(allExercises); //disegna gli esercizi nella griglia principale
   } catch(_) { showToast('Errore nel caricamento esercizi'); }
 }
 
+//Carica i gruppi muscolari unici dagli esercizi e crea dei pulsanti (pill) per filtrare gli esercizi per gruppo muscolare. 
+// Quando si clicca su una pill, viene chiamata la funzione filterByGroup che filtra gli esercizi mostrati.
 async function loadMuscleGroupPills() {
   try {
     const res  = await fetch('/api/exercises/musclegroups');
