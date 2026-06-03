@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FitChecker — Allenati Ovunque</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <span class="brand-icon">⚡</span>
+    <span class="brand-name">FitChecker</span>
+  </div>
+  <div class="nav-tabs" id="nav-tabs">
+    <button class="nav-tab active" data-tab="home" onclick="switchMainTab('home')">Esercizi</button>
+    <button class="nav-tab" data-tab="workout" onclick="switchMainTab('workout')">Allenamento</button>
+    <button class="nav-tab" data-tab="body" onclick="switchMainTab('body')">Mappa Corpo</button>
+    <button class="nav-tab nav-tab-stats hidden" data-tab="stats" onclick="switchMainTab('stats')">Statistiche</button>
+  </div>
+  <div class="nav-actions">
+    <div id="nav-guest">
+      <button class="btn btn-ghost" onclick="openModal('login-modal')">Accedi</button>
+      <button class="btn btn-primary" onclick="openModal('register-modal')">Registrati</button>
+    </div>
+    <div id="nav-user" class="hidden">
+      <div class="user-chip" onclick="switchMainTab('stats')" title="Vai alle statistiche">
+        <span class="user-dot"></span>
+        <span id="user-name-display"></span>
+      </div>
+      <button class="btn-logout" onclick="logout()">Esci</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== TAB: HOME ========== -->
+<div id="tab-home" class="tab-section">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-content">
+      <p class="hero-tag">Salute &amp; Benessere</p>
+      <h1 class="hero-title">Allenati<br><span class="accent">Ovunque.</span></h1>
+      <p class="hero-sub">16 esercizi senza attrezzatura. Filtra per gruppo muscolare, cerca, salva i preferiti.</p>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-blob"></div>
+      <div class="stats-row">
+        <div class="stat"><span class="stat-num">16</span><span class="stat-label">Esercizi</span></div>
+        <div class="stat"><span class="stat-num">7</span><span class="stat-label">Muscoli</span></div>
+        <div class="stat"><span class="stat-num">0€</span><span class="stat-label">Costo</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOOLBAR -->
+  <section class="toolbar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" class="search-input" placeholder="Cerca esercizio o muscolo..." oninput="handleSearch()">
+    </div>
+    <div class="filter-pills" id="filter-pills">
+      <button class="pill active" data-group="" onclick="filterByGroup(this,'')">Tutti</button>
+    </div>
+    <div class="sub-tabs">
+      <button class="sub-tab active" id="subtab-all" onclick="showSubTab('all')">Tutti</button>
+      <button class="sub-tab" id="subtab-fav" onclick="showSubTab('fav')">❤ Preferiti</button>
+    </div>
+  </section>
+
+  <!-- GRID -->
+  <main class="container">
+    <div id="exercises-grid" class="grid"></div>
+    <div id="empty-state" class="empty-state hidden">
+      <div class="empty-icon">🏋️</div>
+      <p id="empty-text">Nessun esercizio trovato</p>
+    </div>
+  </main>
+</div>
+
+<!-- ========== TAB: ALLENAMENTO DEL GIORNO ========== -->
+<div id="tab-workout" class="tab-section hidden">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">🗓 Allenamento del Giorno</h2>
+      <p class="section-sub">5 esercizi bilanciati selezionati per te oggi</p>
+      <button class="btn btn-ghost" onclick="generateWorkout(true)">↻ Rigenera</button>
+    </div>
+    <div id="workout-list" class="workout-list"></div>
+
+    <!-- PROGRESS BAR GLOBALE -->
+    <div id="workout-progress-wrap" class="workout-progress-wrap hidden">
+      <div class="progress-label">
+        <span>Progresso allenamento</span>
+        <span id="progress-text">0 / 0 serie</span>
+      </div>
+      <div class="progress-bar-outer">
+        <div id="progress-bar" class="progress-bar-inner" style="width:0%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TAB: MAPPA CORPO ========== -->
+<div id="tab-body" class="tab-section hidden">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">🫀 Mappa del Corpo</h2>
+      <p class="section-sub">Clicca su un gruppo muscolare per vedere gli esercizi</p>
+    </div>
+    <div class="body-map-wrap">
+      <!-- SVG corpo umano stilizzato -->
+      <svg id="body-svg" viewBox="0 0 300 600" xmlns="http://www.w3.org/2000/svg" class="body-svg">
+        <!-- TESTA -->
+        <circle cx="150" cy="45" r="35" fill="#1e1e1e" stroke="#333" stroke-width="1.5"/>
+        <!-- COLLO -->
+        <rect x="138" y="78" width="24" height="18" rx="4" fill="#1e1e1e" stroke="#333" stroke-width="1.5"/>
+
+        <!-- TORSO -->
+        <rect x="90" y="95" width="120" height="130" rx="14" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+
+        <!-- SPALLE — cliccabili -->
+        <g class="muscle-zone" data-group="Spalle" onclick="selectMuscle('Spalle')" title="Spalle">
+          <ellipse cx="75" cy="110" rx="26" ry="20" fill="#1e2a1e" stroke="#00e676" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <ellipse cx="225" cy="110" rx="26" ry="20" fill="#1e2a1e" stroke="#00e676" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <text x="75" y="114" text-anchor="middle" class="muscle-label">Spalle</text>
+        </g>
+
+        <!-- PETTO — cliccabile -->
+        <g class="muscle-zone" data-group="Petto" onclick="selectMuscle('Petto')" title="Petto">
+          <rect x="100" y="100" width="100" height="55" rx="10" fill="#1e2a1e" stroke="#00e676" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <text x="150" y="132" text-anchor="middle" class="muscle-label">Petto</text>
+        </g>
+
+        <!-- CORE — cliccabile -->
+        <g class="muscle-zone" data-group="Core" onclick="selectMuscle('Core')" title="Core">
+          <rect x="108" y="158" width="84" height="65" rx="8" fill="#1e261e" stroke="#00e676" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <text x="150" y="195" text-anchor="middle" class="muscle-label">Core</text>
+        </g>
+
+        <!-- SCHIENA badge -->
+        <g class="muscle-zone" data-group="Schiena" onclick="selectMuscle('Schiena')" title="Schiena">
+          <rect x="86" y="230" width="128" height="40" rx="8" fill="#1e2a1e" stroke="#00e676" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <text x="150" y="255" text-anchor="middle" class="muscle-label">Schiena</text>
+        </g>
+
+        <!-- BRACCIA -->
+        <g class="muscle-zone" data-group="Braccia" onclick="selectMuscle('Braccia')" title="Braccia">
+          <rect x="44" y="130" width="36" height="110" rx="14" fill="#1e2a1e" stroke="#00e676" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <rect x="220" y="130" width="36" height="110" rx="14" fill="#1e2a1e" stroke="#00e676" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <text x="62" y="192" text-anchor="middle" class="muscle-label" transform="rotate(-90,62,192)">Braccia</text>
+          <text x="238" y="192" text-anchor="middle" class="muscle-label" transform="rotate(90,238,192)">Braccia</text>
+        </g>
+
+        <!-- GLUTEI -->
+        <g class="muscle-zone" data-group="Glutei" onclick="selectMuscle('Glutei')" title="Glutei">
+          <ellipse cx="130" cy="290" rx="30" ry="22" fill="#1e2a1e" stroke="#00e676" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <ellipse cx="170" cy="290" rx="30" ry="22" fill="#1e2a1e" stroke="#00e676" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <text x="150" y="294" text-anchor="middle" class="muscle-label">Glutei</text>
+        </g>
+
+        <!-- GAMBE -->
+        <g class="muscle-zone" data-group="Gambe" onclick="selectMuscle('Gambe')" title="Gambe">
+          <rect x="98" y="310" width="48" height="160" rx="16" fill="#1e2a1e" stroke="#00e676" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <rect x="154" y="310" width="48" height="160" rx="16" fill="#1e2a1e" stroke="#00e676" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <text x="122" y="395" text-anchor="middle" class="muscle-label">Gambe</text>
+          <text x="178" y="395" text-anchor="middle" class="muscle-label">Gambe</text>
+        </g>
+
+        <!-- Piedi -->
+        <ellipse cx="122" cy="482" rx="26" ry="12" fill="#1e1e1e" stroke="#333" stroke-width="1.5"/>
+        <ellipse cx="178" cy="482" rx="26" ry="12" fill="#1e1e1e" stroke="#333" stroke-width="1.5"/>
+      </svg>
+
+      <!-- pannello risultati muscolo -->
+      <div class="body-results" id="body-results">
+        <div class="body-results-placeholder">
+          <div style="font-size:48px;margin-bottom:12px">👈</div>
+          <p>Clicca su un gruppo muscolare per vedere gli esercizi relativi</p>
+        </div>
+        <div id="body-exercises-list" class="hidden"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TAB: STATISTICHE ========== -->
+<div id="tab-stats" class="tab-section hidden">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">📊 Le tue Statistiche</h2>
+      <p class="section-sub">Un riepilogo della tua attività su FitChecker</p>
+    </div>
+    <div id="stats-content">
+      <div class="stats-grid" id="stats-cards"></div>
+      <div class="stats-chart-wrap">
+        <h3 class="chart-title">Preferiti per gruppo muscolare</h3>
+        <div id="stats-chart" class="stats-chart"></div>
+      </div>
+      <div class="fav-list-wrap">
+        <h3 class="chart-title">I tuoi esercizi preferiti</h3>
+        <div id="stats-fav-list" class="stats-fav-list"></div>
+      </div>
+    </div>
+    <div id="stats-guest" class="empty-state hidden">
+      <div class="empty-icon">🔒</div>
+      <p>Accedi per vedere le tue statistiche</p>
+      <button class="btn btn-primary" style="margin-top:16px" onclick="openModal('login-modal')">Accedi</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MODALE DETTAGLIO ESERCIZIO ========== -->
+<div id="detail-modal" class="modal-overlay hidden" onclick="closeModal('detail-modal')">
+  <div class="modal modal-large" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('detail-modal')">✕</button>
+    <img id="detail-img" src="" alt="" class="detail-img">
+    <div class="detail-body">
+
+      <div class="detail-header">
+        <div>
+          <h2 id="detail-name"></h2>
+          <div class="detail-tags">
+            <span id="detail-group" class="tag"></span>
+            <span id="detail-muscle" class="tag tag-muscle"></span>
+            <span id="detail-difficulty" class="tag tag-diff"></span>
+          </div>
+        </div>
+        <button id="detail-fav-btn" class="fav-btn-large hidden" onclick="toggleFavoriteFromDetail()">♡</button>
+      </div>
+
+      <p id="detail-desc" class="detail-desc"></p>
+
+      <!-- SERIE con barra progresso -->
+      <div class="sets-section">
+        <div class="sets-header">
+          <span class="sets-title">Serie</span>
+          <span id="sets-progress-text" class="sets-progress-text">0 / 0</span>
+        </div>
+        <div id="sets-dots" class="sets-dots"></div>
+        <div class="progress-bar-outer" style="margin-top:8px">
+          <div id="sets-progress-bar" class="progress-bar-inner" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- TIMER RIPOSO -->
+      <div id="timer-section" class="timer-section hidden">
+        <div id="timer-display" class="timer-display">
+          <svg viewBox="0 0 80 80" class="timer-ring">
+            <circle cx="40" cy="40" r="34" fill="none" stroke="#222" stroke-width="6"/>
+            <circle id="timer-ring-fg" cx="40" cy="40" r="34" fill="none" stroke="#00e676" stroke-width="6"
+              stroke-dasharray="213.6" stroke-dashoffset="0" stroke-linecap="round"
+              transform="rotate(-90 40 40)"/>
+          </svg>
+          <span id="timer-text" class="timer-text">0</span>
+        </div>
+        <p class="timer-label">Riposo in corso…</p>
+        <button class="btn btn-ghost" onclick="skipRest()">Salta</button>
+      </div>
+
+      <div class="detail-stats">
+        <div class="dstat"><span class="dstat-label">Reps</span><span id="detail-reps" class="dstat-val"></span></div>
+        <div class="dstat"><span class="dstat-label">Riposo</span><span id="detail-rest" class="dstat-val"></span></div>
+      </div>
+
+      <!-- COMMENTO (solo utenti loggati) -->
+      <div id="comment-section" class="comment-section hidden">
+        <label class="comment-label">📝 La tua nota personale</label>
+        <textarea id="comment-input" class="comment-input" placeholder="Aggiungi una nota privata su questo esercizio..."></textarea>
+        <button class="btn btn-primary" style="padding:8px 20px;font-size:13px" onclick="saveComment()">Salva nota</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODALE LOGIN -->
+<div id="login-modal" class="modal-overlay hidden" onclick="closeModal('login-modal')">
+  <div class="modal modal-auth" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('login-modal')">✕</button>
+    <h2 class="modal-title">Accedi</h2>
+    <p class="modal-sub">Salva i tuoi esercizi preferiti</p>
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="login-username" class="form-input" placeholder="il tuo username">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="login-password" class="form-input" placeholder="••••••" onkeydown="if(event.key==='Enter')login()">
+    </div>
+    <div id="login-error" class="form-error hidden"></div>
+    <button class="btn btn-primary btn-full" onclick="login()">Accedi</button>
+    <p class="modal-switch">Non hai un account? <a href="#" onclick="switchModal('login-modal','register-modal')">Registrati</a></p>
+  </div>
+</div>
+
+<!-- MODALE REGISTER -->
+<div id="register-modal" class="modal-overlay hidden" onclick="closeModal('register-modal')">
+  <div class="modal modal-auth" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('register-modal')">✕</button>
+    <h2 class="modal-title">Registrati</h2>
+    <p class="modal-sub">Crea il tuo profilo FitChecker</p>
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="reg-username" class="form-input" placeholder="scegli un username">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="reg-password" class="form-input" placeholder="min 4 caratteri" onkeydown="if(event.key==='Enter')register()">
+    </div>
+    <div id="reg-error" class="form-error hidden"></div>
+    <button class="btn btn-primary btn-full" onclick="register()">Crea account</button>
+    <p class="modal-switch">Hai già un account? <a href="#" onclick="switchModal('register-modal','login-modal')">Accedi</a></p>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>

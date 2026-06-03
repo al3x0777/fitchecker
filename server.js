@@ -1,98 +1,53 @@
 const express = require('express');
 const session = require('express-session');
-const path = require('path');
-require('dotenv').config();
+const path    = require('path');
 
-const app = express();
+const {
+  ViewController, ExerciseController, AuthController,
+  FavoriteController, CommentController, StatsController,
+  WebServiceController, requireAuth
+} = require('./controller/controller');
+
+const app  = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-
-// CORS - permetti cookies nelle richieste cross-origin
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    if (req.method === 'OPTIONS') {
-        return res.sendStatus(200);
-    }
-    next();
-});
-
-// Sessione
 app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { 
-        maxAge: 1000 * 60 * 60 * 24,
-        httpOnly: true,
-        sameSite: 'lax'
-    }
+  secret: 'fitchecker-secret-2024',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 1000 * 60 * 60 * 24 }
 }));
 
-// Import controller e middleware
-const authController = require('./controllers/authController');
-const { ensureAuthenticated } = require('./middleware/auth');
-const exerciseController = require('./controllers/exerciseController');
+// View
+app.get('/', ViewController.home);
 
-// ========================
-// ROTTE PAGINE
-// ========================
-app.get('/', (req, res) => {
-    if (req.session.userId) {
-        res.redirect('/dashboard');
-    } else {
-        res.redirect('/login');
-    }
-});
+// Esercizi
+app.get('/api/exercises',             ExerciseController.getAll);
+app.get('/api/exercises/musclegroups',ExerciseController.getMuscleGroups);
+app.get('/api/exercises/:id',         ExerciseController.getById);
 
-app.get('/login', (req, res) => {
-    if (req.session.userId) {
-        return res.redirect('/dashboard');
-    }
-    res.sendFile(path.join(__dirname, 'views', 'login.html'));
-});
+// Auth
+app.post('/api/auth/login',    AuthController.login);
+app.post('/api/auth/register', AuthController.register);
+app.post('/api/auth/logout',   AuthController.logout);
+app.get('/api/auth/me',        AuthController.me);
 
-app.get('/register', (req, res) => {
-    if (req.session.userId) {
-        return res.redirect('/dashboard');
-    }
-    res.sendFile(path.join(__dirname, 'views', 'register.html'));
-});
+// Preferiti
+app.get('/api/favorites',              requireAuth, FavoriteController.getAll);
+app.post('/api/favorites/:exerciseId', requireAuth, FavoriteController.toggle);
 
-app.get('/dashboard', ensureAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'dashboard.html'));
-});
+// Commenti
+app.get('/api/comments/:exerciseId',  requireAuth, CommentController.get);
+app.post('/api/comments/:exerciseId', requireAuth, CommentController.set);
 
-app.get('/exercises', ensureAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'exercises.html'));
-});
+// Statistiche
+app.get('/api/stats', requireAuth, StatsController.get);
 
-// ========================
-// ROTTE API
-// ========================
-app.post('/api/register', authController.register);
-app.post('/api/login', authController.login);
-app.get('/api/logout', authController.logout);
-app.get('/api/me', ensureAuthenticated, authController.getCurrentUser);
-app.get('/api/exercises', exerciseController.getExercises);
-app.get('/api/exercises/:id', exerciseController.getExerciseById);
-app.get('/api/muscles', exerciseController.getMuscles);
-app.get('/api/difficulties', exerciseController.getDifficulties);
-app.get('/api/types', exerciseController.getTypes);
+// Web Service pubblico
+app.get('/ws/exercises',               WebServiceController.publicExercises);
+app.get('/ws/exercises/muscle/:muscle',WebServiceController.byMuscle);
 
-// ========================
-// AVVIO SERVER
-// ========================
-app.listen(PORT, () => {
-    console.log(`
-    Server avviato!
-    http://localhost:${PORT}
-    Login: http://localhost:${PORT}/login
-    `);
-});
+app.listen(PORT, () => console.log(`✅ FitChecker → http://localhost:${PORT}`));
